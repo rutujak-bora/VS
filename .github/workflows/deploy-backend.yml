@@ -1,0 +1,25 @@
+name: Deploy Backend to EC2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Backend EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 13.62.51.191
+          username: ubuntu
+          key: ${{ secrets.BACKEND_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/VS
+            git pull origin main
+            source backend/venv/bin/activate
+            pip install -r backend/requirements.txt
+            sudo systemctl restart vsfashion
+            echo "Backend deployed successfully at $(date)"
