@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Maroon/Burgundy Brand Color from Logo (#8B1B4A) */
+  --background: 0 0% 100%;
+  --foreground: 340 65% 20%;
+
+  /* Primary Action - Maroon/Burgundy */
+  --primary: 340 65% 33%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary (Light Rose) */
+  --secondary: 340 30% 95%;
+  --secondary-foreground: 340 65% 33%;
+
+  /* Accent (Deep Maroon) */
+  --accent: 340 70% 40%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Muted backgrounds */
+  --muted: 340 20% 96%;
+  --muted-foreground: 340 30% 45%;
+
+  /* Borders */
+  --border: 340 20% 88%;
+  --input: 340 20% 92%;
+  --ring: 340 65% 33%;
+
+  /* Cards */
+  --card: 0 0% 100%;
+  --card-foreground: 340 65% 20%;
+
+  --radius: 0.5rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Product card hover effect */
+.product-card-image {
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-card-image-1 {
+  opacity: 0;
+}
+
+.product-card:hover .product-card-image-2 {
+  opacity: 1;
+}
+
+.product-card-image-2 {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s ease;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.fade-in-delay-1 {
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.fade-in-delay-2 {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.fade-in-delay-3 {
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.fade-in-delay-4 {
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+/* Size badge button */
+.size-badge {
+  transition: all 0.2s ease;
+}
+
+.size-badge:hover {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  transform: scale(1.05);
+}
+
+/* Hide scrollbar for carousel */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Limited stock badge */
+.limited-stock-badge {
+  background-color: hsl(var(--primary));
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+}
+
+/* Remove number input arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Dropdown menu animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.group:hover .absolute {
+  animation: slideDown 0.2s ease-out;
+}
+
+/* Trending section background */
+.trending-section-bg {
+  background: linear-gradient(135deg, hsl(340, 65%, 33%) 0%, hsl(340, 70%, 25%) 100%);
+  position: relative;
+}
+
+.trending-section-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1761516659902-2994696b362e?w=1200');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+}
+
+/* Slide-in animation for sidebar */
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* FAQ accordion styles */
+.faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.faq-content.open {
+  max-height: 500px;
+}
+
+/* Tab styles */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Navigation underline effect */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: hsl(var(--primary));
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}

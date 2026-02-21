@@ -1,0 +1,159 @@
+{
+  "project_name": "VS Fashion",
+  "design_philosophy": {
+    "persona": "E1: The Anti-AI Designer",
+    "theme_name": "The Midnight Atelier (Luxury & Elegant)",
+    "core_principles": [
+      "Fusion over Imitation: Mix Editorial Print aesthetics with E-commerce utility.",
+      "Emotion First: Every interaction must feel 'expensive' and 'deliberate'.",
+      "Content is King: Products are art pieces; the UI is the gallery wall.",
+      "Negative Space: Extreme padding (p-24, p-32) to create luxury breathing room."
+    ]
+  },
+  "typography": {
+    "font_family": {
+      "heading": "Playfair Display, serif",
+      "body": "Manrope, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-6xl md:text-8xl font-medium tracking-tight leading-none",
+      "h2": "text-4xl md:text-5xl font-normal tracking-tight",
+      "h3": "text-2xl md:text-3xl font-normal",
+      "body": "text-base md:text-lg leading-relaxed tracking-wide",
+      "caption": "text-xs uppercase tracking-[0.2em] font-bold"
+    },
+    "installation": "Import fonts via Google Fonts in index.css: @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');"
+  },
+  "colors": {
+    "palette": {
+      "light": {
+        "background": "0 0% 98%",
+        "foreground": "0 0% 10%",
+        "primary": "0 0% 10%",
+        "primary_foreground": "0 0% 98%",
+        "secondary": "30 20% 96%",
+        "secondary_foreground": "0 0% 10%",
+        "accent": "45 20% 90%",
+        "accent_foreground": "0 0% 10%",
+        "border": "0 0% 90%",
+        "input": "0 0% 90%",
+        "ring": "0 0% 10%"
+      },
+      "dark": {
+        "background": "0 0% 5%",
+        "foreground": "0 0% 95%",
+        "primary": "0 0% 95%",
+        "primary_foreground": "0 0% 5%",
+        "secondary": "0 0% 12%",
+        "secondary_foreground": "0 0% 95%",
+        "accent": "45 30% 20%",
+        "accent_foreground": "0 0% 95%",
+        "border": "0 0% 20%",
+        "input": "0 0% 20%",
+        "ring": "0 0% 80%"
+      }
+    },
+    "usage_rules": [
+      "Never use pure black (#000000). Use #0A0A0A or #121212.",
+      "Primary color is for high-contrast actions (Buy Now).",
+      "Accent color is for subtle highlights (Gold/Bronze tones for luxury feel).",
+      "Error states should be deep crimson, not bright red."
+    ]
+  },
+  "layout_strategies": {
+    "spacing": {
+      "container_padding": "px-6 md:px-12 lg:px-24",
+      "section_gap": "py-24 md:py-32",
+      "element_gap": "gap-8 md:gap-12"
+    },
+    "grids": {
+      "marketing": "Mode A: The Tetris Grid (Asymmetrical, Art-focused)",
+      "shop": "Mode B: Uniform Grid (3-4 columns, focus on product visibility)",
+      "dashboard": "Mode C: High Density Grid (Data-heavy, compact)"
+    },
+    "containers": {
+      "marketing_card": "No border, no shadow. Image aspect-ratio [3/4] or [4/5]. Text below image.",
+      "admin_card": "Flat background, 1px subtle border, sharp corners."
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "rounded-none uppercase tracking-widest text-xs font-bold px-8 py-4 hover:bg-transparent hover:text-primary border border-primary transition-all duration-300",
+      "secondary": "rounded-none uppercase tracking-widest text-xs font-bold px-8 py-4 bg-transparent border border-input hover:bg-secondary transition-all duration-300"
+    },
+    "inputs": {
+      "style": "rounded-none border-b border-input bg-transparent px-0 py-2 focus-visible:ring-0 focus-visible:border-primary placeholder:text-muted-foreground/50"
+    },
+    "navigation": {
+      "style": "Glassmorphism: backdrop-blur-md bg-background/80 border-b border-border/40 sticky top-0 z-50"
+    },
+    "cards": {
+      "product": "group relative overflow-hidden. Image scales slightly on hover. 'Quick Add' button slides up from bottom."
+    }
+  },
+  "visual_enhancers": {
+    "textures": "Use subtle grain overlay on backgrounds to avoid 'digital flatness'.",
+    "motion": {
+      "scroll": "Use Lenis for smooth scrolling.",
+      "hover": "Images scale 1.05x on hover. Text links underline expands from center.",
+      "page_load": "Staggered fade-in for grid items."
+    },
+    "glassmorphism": "Use for sticky headers and modal overlays. backdrop-blur-xl bg-white/70 (light) or bg-black/60 (dark)."
+  },
+  "assets": {
+    "images": {
+      "hero_main": {
+        "url": "https://images.unsplash.com/photo-1742540425779-4172d3ac460a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHxoaWdoJTIwZmFzaGlvbiUyMG1vZGVsJTIwZWRpdG9yaWFsJTIwc3R1ZGlvJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY5MTY1NzQzfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "VS Fashion Editorial Hero Model",
+        "category": "marketing"
+      },
+      "category_women": {
+        "url": "https://images.unsplash.com/photo-1762843354010-c07e2b16ec92?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwyfHxoaWdoJTIwZmFzaGlvbiUyMG1vZGVsJTIwZWRpdG9yaWFsJTIwc3R1ZGlvJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY5MTY1NzQzfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Women's Collection",
+        "category": "marketing"
+      },
+      "category_men": {
+        "url": "https://images.unsplash.com/photo-1761882351756-77f8c7e36c47?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwzfHxoaWdoJTIwZmFzaGlvbiUyMG1vZGVsJTIwZWRpdG9yaWFsJTIwc3R1ZGlvJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY5MTY1NzQzfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Men's Collection",
+        "category": "marketing"
+      },
+      "about_bg": {
+        "url": "https://images.unsplash.com/photo-1715163794837-016c253103d6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjbG90aGluZyUyMHN0b3JlJTIwaW50ZXJpb3IlMjBtaW5pbWFsaXN0fGVufDB8fHx8MTc2OTE2NTc0NXww&ixlib=rb-4.1.0&q=85",
+        "alt": "Our Atelier",
+        "category": "marketing"
+      },
+      "brand_placeholder": {
+        "url": "https://images.unsplash.com/photo-1759563874678-844afcc582b8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBmYXNoaW9uJTIwYnJhbmQlMjBsb2dvJTIwbWluaW1hbGlzdCUyMGJsYWNrJTIwYW5kJTIwd2hpdGV8ZW58MHx8fHwxNzY5MTY1NzQwfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Brand Element",
+        "category": "brand"
+      }
+    },
+    "icons": "Use 'lucide-react' with thin stroke width (stroke-width={1.5}) for elegance."
+  },
+  "admin_panel_guidelines": {
+    "style": "Swiss Brutalist. High contrast. White background, black borders, bold typography.",
+    "layout": "Sidebar navigation (fixed). Main content area with 'High Density Grid'.",
+    "features": [
+      "Dashboard: Key metrics (Sales, Orders, Customers) in bold cards.",
+      "Products: Table view with image thumbnails. 'Add Product' drawer.",
+      "Orders: Status badges (Pending=Yellow, Shipped=Blue, Delivered=Green).",
+      "Inventory: Low stock alerts (Red text)."
+    ]
+  },
+  "implementation_steps": [
+    "1. Configure Tailwind theme in tailwind.config.js with new colors and fonts.",
+    "2. Update index.css with @import for fonts and CSS variables.",
+    "3. Create 'Layout' components (MarketingLayout, AdminLayout).",
+    "4. Build 'UI' primitives (Button, Input, Card) with custom styles.",
+    "5. Develop pages: Landing, Shop, Product Detail, Cart, Checkout.",
+    "6. Develop Admin pages: Dashboard, Products, Orders.",
+    "7. Integrate 'sonner' for toasts and 'lucide-react' for icons."
+  ],
+  "universal_guidelines": [
+    "Do not use gradients for backgrounds. Use solid colors or subtle noise.",
+    "Ensure all interactive elements have data-testid attributes.",
+    "Use 'sonner' for notifications.",
+    "Respect the 'Jewel & Luxury' theme: High contrast, elegant typography, generous spacing."
+  ]
+}
