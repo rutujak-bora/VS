@@ -49,10 +49,12 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link to="/home" className="flex items-center" data-testid="brand-logo">
-            <span className="text-2xl md:text-3xl font-bold tracking-tight" style={{ fontFamily: 'Cormorant Garamond, serif', color: '#8B1B4A' }}>
-              VS Fashion
-            </span>
+          <Link to="/home" className="flex items-center gap-2" data-testid="brand-logo">
+            <img
+              src="/images/logo.png"
+              alt="VS Fashion Logo"
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Center Navigation - Desktop */}
