@@ -51,7 +51,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/home" className="flex items-center gap-2" data-testid="brand-logo">
             <img
-              src="/images/logo.png"
+              src="/images/logo.jpeg"
               alt="VS Fashion Logo"
               className="h-10 md:h-12 w-auto object-contain"
             />
