@@ -20,6 +20,10 @@ import AdminCollections from './pages/admin/AdminCollections';
 import AdminCategories from './pages/admin/AdminCategories';
 import './App.css';
 
+const ProtectedRoute = ({ children }) => {
+  return getToken() ? children : <Navigate to="/login" />;
+};
+
 function App() {
   return (
     <>
@@ -31,8 +35,8 @@ function App() {
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={getToken() ? <Cart /> : <Navigate to="/login" />} />
-          <Route path="/orders" element={getToken() ? <Orders /> : <Navigate to="/login" />} />
+          <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
 
