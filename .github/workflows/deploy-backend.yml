@@ -13,7 +13,7 @@ jobs:
       - name: Deploy to Backend EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: 13.62.51.191
+          host: ${{ secrets.BACKEND_IP }}
           username: ubuntu
           key: ${{ secrets.BACKEND_SSH_KEY }}
           script: |

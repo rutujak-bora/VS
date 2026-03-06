@@ -27,14 +27,14 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         env:
-          REACT_APP_BACKEND_URL: http://13.62.51.191
+          REACT_APP_BACKEND_URL: http://${{ secrets.BACKEND_IP }}
           CI: false
         run: npm run build
 
       - name: Transfer build to Frontend EC2
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: 16.16.28.127
+          host: ${{ secrets.FRONTEND_IP }}
           username: ubuntu
           key: ${{ secrets.FRONTEND_SSH_KEY }}
           source: "frontend/build/."
@@ -44,7 +44,7 @@ jobs:
       - name: Reload Nginx
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: 16.16.28.127
+          host: ${{ secrets.FRONTEND_IP }}
           username: ubuntu
           key: ${{ secrets.FRONTEND_SSH_KEY }}
           script: |
