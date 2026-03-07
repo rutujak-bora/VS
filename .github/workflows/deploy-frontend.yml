@@ -30,6 +30,8 @@ jobs:
           REACT_APP_BACKEND_URL: http://${{ secrets.BACKEND_IP }}
           CI: "false"
           DISABLE_ESLINT_PLUGIN: "true"
+          GENERATE_SOURCEMAP: "false"
+          NODE_OPTIONS: "--max-old-space-size=4096"
         run: npm run build
 
       - name: Transfer build to Frontend EC2
