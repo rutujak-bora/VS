@@ -18,6 +18,7 @@ export default function AdminInventory() {
     }
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchProducts = async () => {
@@ -46,7 +47,7 @@ export default function AdminInventory() {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-4xl font-bold uppercase tracking-tight mb-8" style={{fontFamily: 'Playfair Display, serif'}} data-testid="inventory-title">
+        <h1 className="text-4xl font-bold uppercase tracking-tight mb-8" style={{ fontFamily: 'Playfair Display, serif' }} data-testid="inventory-title">
           Inventory Management
         </h1>
 
@@ -82,9 +83,8 @@ export default function AdminInventory() {
                     </td>
                     <td className="p-4">{product.category}</td>
                     <td className="p-4">
-                      <span className={`text-lg font-bold ${
-                        product.quantity < 10 ? 'text-red-600' : product.quantity < 50 ? 'text-yellow-600' : ''
-                      }`} data-testid={`stock-${idx}`}>
+                      <span className={`text-lg font-bold ${product.quantity < 10 ? 'text-red-600' : product.quantity < 50 ? 'text-yellow-600' : ''
+                        }`} data-testid={`stock-${idx}`}>
                         {product.quantity}
                       </span>
                       {product.quantity < 10 && (

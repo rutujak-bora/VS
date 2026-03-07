@@ -13,6 +13,7 @@ export default function Header() {
 
   useEffect(() => {
     fetchCartCount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchCartCount = async () => {

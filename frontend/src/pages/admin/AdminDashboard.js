@@ -22,6 +22,7 @@ export default function AdminDashboard() {
     }
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     fetchStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchStats = async () => {
@@ -50,7 +51,7 @@ export default function AdminDashboard() {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-4xl font-bold uppercase tracking-tight mb-8" style={{fontFamily: 'Playfair Display, serif'}} data-testid="dashboard-title">
+        <h1 className="text-4xl font-bold uppercase tracking-tight mb-8" style={{ fontFamily: 'Playfair Display, serif' }} data-testid="dashboard-title">
           Dashboard
         </h1>
 

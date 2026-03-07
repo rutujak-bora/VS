@@ -32,6 +32,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // Sync carousel API with thumbnail selection
@@ -41,6 +42,7 @@ export default function ProductDetail() {
     carouselApi.on('select', () => {
       setCurrentImageIndex(carouselApi.selectedScrollSnap());
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [carouselApi]);
 
   const fetchProduct = async () => {

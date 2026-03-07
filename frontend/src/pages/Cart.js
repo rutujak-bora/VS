@@ -18,6 +18,7 @@ export default function Cart() {
       return;
     }
     fetchCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchCart = async () => {

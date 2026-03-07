@@ -19,6 +19,7 @@ export default function AdminOrders() {
     }
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchOrders = async () => {
@@ -52,7 +53,7 @@ export default function AdminOrders() {
   return (
     <AdminLayout>
       <div>
-        <h1 className="text-4xl font-bold uppercase tracking-tight mb-8" style={{fontFamily: 'Playfair Display, serif'}} data-testid="orders-title">
+        <h1 className="text-4xl font-bold uppercase tracking-tight mb-8" style={{ fontFamily: 'Playfair Display, serif' }} data-testid="orders-title">
           Orders
         </h1>
 
