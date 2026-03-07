@@ -24,6 +24,7 @@ const ProtectedRoute = ({ children }) => {
   return getToken() ? children : <Navigate to="/login" />;
 };
 
+// App entry point
 function App() {
   return (
     <>
