@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../utils/api';
 import AdminLayout from '../../components/AdminLayout';
 import { toast } from 'sonner';
-import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Upload, Copy, Download } from 'lucide-react';
+import { useRef } from 'react';
 
 export default function AdminProducts() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function AdminProducts() {
   });
   const [images, setImages] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
@@ -100,6 +102,54 @@ export default function AdminProducts() {
     });
     setImages([]);
     setShowModal(true);
+  };
+
+  const openDuplicateModal = (product) => {
+    setEditMode(false);
+    setCurrentProduct(null);
+    setFormData({
+      name: product.name + ' (Copy)',
+      collection_id: product.collection_id || '',
+      category_id: product.category_id || '',
+      category: product.category,
+      colors: product.variants.colors.join(','),
+      sizes: product.variants.sizes.join(','),
+      size_chart: product.variants.size_chart || '',
+      quantity: product.quantity.toString(),
+      price: product.price.toString(),
+      is_trending: product.is_trending
+    });
+    setImages([]);
+    setShowModal(true);
+    toast.info('Please select images for the duplicated product');
+  };
+
+  const handleBulkUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('file', file);
+
+    try {
+      toast.loading('Importing products...', { id: 'bulk-import' });
+      const res = await api.post('/admin/products/bulk', formDataToSend, {
+        headers: { 'Content-Type': 'multipart/form-data' } // Important for file payload
+      });
+      toast.success(res.data.message, { id: 'bulk-import' });
+      if (res.data.errors && res.data.errors.length > 0) {
+        res.data.errors.forEach(err => toast.error(err));
+      }
+      fetchProducts();
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Failed to import CSV', { id: 'bulk-import' });
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const downloadCSVTemplate = () => {
+    window.location.href = process.env.REACT_APP_BACKEND_URL + '/api/admin/products/csv-template';
   };
 
   const handleSubmit = async (e) => {
@@ -175,14 +225,37 @@ export default function AdminProducts() {
           <h1 className="text-4xl font-bold uppercase tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }} data-testid="products-title">
             Products
           </h1>
-          <button
-            onClick={openCreateModal}
-            className="flex items-center gap-2 px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-xs uppercase tracking-widest font-bold"
-            data-testid="add-product-btn"
-          >
-            <Plus className="w-4 h-4" strokeWidth={2} />
-            Add Product
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={downloadCSVTemplate}
+              className="flex items-center gap-2 px-4 py-3 bg-gray-100 text-black border border-black hover:bg-gray-200 transition-colors text-xs uppercase tracking-widest font-bold hidden md:flex"
+            >
+              <Download className="w-4 h-4" />
+              Template
+            </button>
+            <input
+              type="file"
+              accept=".csv"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handleBulkUpload}
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-2 px-4 py-3 bg-gray-100 text-black border border-black hover:bg-gray-200 transition-colors text-xs uppercase tracking-widest font-bold"
+            >
+              <Upload className="w-4 h-4" />
+              Bulk Import
+            </button>
+            <button
+              onClick={openCreateModal}
+              className="flex items-center gap-2 px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors text-xs uppercase tracking-widest font-bold"
+              data-testid="add-product-btn"
+            >
+              <Plus className="w-4 h-4" strokeWidth={2} />
+              Add Product
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -227,14 +300,23 @@ export default function AdminProducts() {
                     <td className="p-4">
                       <div className="flex gap-2">
                         <button
+                          onClick={() => openDuplicateModal(product)}
+                          className="p-2 hover:bg-gray-100"
+                          title="Duplicate this product"
+                        >
+                          <Copy className="w-4 h-4" strokeWidth={2} />
+                        </button>
+                        <button
                           onClick={() => openEditModal(product)}
                           className="p-2 hover:bg-gray-100"
+                          title="Edit"
                         >
                           <Edit2 className="w-4 h-4" strokeWidth={2} />
                         </button>
                         <button
                           onClick={() => deleteProduct(product.id)}
                           className="p-2 hover:bg-gray-100 text-red-600"
+                          title="Delete"
                         >
                           <Trash2 className="w-4 h-4" strokeWidth={2} />
                         </button>

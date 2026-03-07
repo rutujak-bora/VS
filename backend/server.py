@@ -626,6 +626,107 @@ async def delete_product(product_id: str, authorization: str = Header(None)):
         raise HTTPException(status_code=404, detail="Product not found")
     return {"message": "Product deleted"}
 
+import csv
+import io
+from fastapi.responses import Response
+
+@api_router.get("/admin/products/csv-template")
+async def download_csv_template():
+    content = "Name,Collection,Category,Colors,Sizes,Quantity,Price,Trending,Size_Chart,Image_URLs\n"
+    content += "Premium Silk Dress,Women,Shirts,Red|Blue,S|M|L|XL,50,2499.00,Yes,Standard,https://example.com/img1.jpg|https://example.com/img2.jpg\n"
+    return Response(
+        content=content,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=bulk_products_template.csv"}
+    )
+
+@api_router.post("/admin/products/bulk")
+async def bulk_upload_products(file: UploadFile = File(...), authorization: str = Header(None)):
+    await get_current_admin(authorization or "")
+    
+    if not file.filename.endswith('.csv'):
+        raise HTTPException(status_code=400, detail="Please upload a .csv file")
+        
+    try:
+        content = await file.read()
+        text = content.decode('utf-8-sig') # handle BOM if saved from Excel
+        reader = csv.DictReader(io.StringIO(text))
+        
+        collections = await db.collections.find({}).to_list(100)
+        categories = await db.categories.find({}).to_list(100)
+        
+        col_map = {c['name'].lower(): c['id'] for c in collections}
+        cat_map = {c['name'].lower(): (c['id'], c['collection_id']) for c in categories}
+        cat_name_map = {c['name'].lower(): c['name'] for c in categories}
+        
+        added_count = 0
+        error_rows = []
+        
+        for idx, row in enumerate(reader, start=2):
+            name = row.get('Name', '').strip()
+            if not name: continue
+            
+            col_name = row.get('Collection', '').strip().lower()
+            cat_name = row.get('Category', '').strip().lower()
+            
+            col_id = col_map.get(col_name)
+            cat_id = None
+            if cat_name in cat_map:
+                cat_id, _ = cat_map[cat_name]
+                
+            if not col_id or not cat_id:
+                error_rows.append(f"Row {idx}: Collection '{col_name}' or Category '{cat_name}' not found. Please create them first.")
+                continue
+                
+            try:
+                qty = int(row.get('Quantity', 10))
+                price = float(row.get('Price', 999.0))
+            except:
+                qty = 10
+                price = 999.0
+                
+            colors_str = row.get('Colors', 'Default').replace(',', '|')
+            sizes_str = row.get('Sizes', 'Free Size').replace(',', '|')
+            
+            colors = [x.strip() for x in colors_str.split('|') if x.strip()]
+            sizes = [x.strip() for x in sizes_str.split('|') if x.strip()]
+            
+            is_trending = str(row.get('Trending', 'False')).lower() in ['true', 'yes', '1', 'y']
+            
+            img_str = row.get('Image_URLs', '').replace(',', '|')
+            images = [img.strip() for img in img_str.split('|') if img.strip()]
+            
+            product = Product(
+                name=name,
+                category=cat_name_map.get(cat_name, row.get('Category', '')),
+                collection_id=col_id,
+                category_id=cat_id,
+                images=images,
+                variants=ProductVariant(
+                    colors=colors,
+                    sizes=sizes,
+                    size_chart=row.get('Size_Chart', '')
+                ),
+                quantity=qty,
+                price=price,
+                is_trending=is_trending
+            )
+            
+            doc = product.model_dump()
+            doc['created_at'] = doc['created_at'].isoformat()
+            await db.products.insert_one(doc)
+            added_count += 1
+            
+        if added_count == 0 and error_rows:
+            raise HTTPException(status_code=400, detail="; ".join(error_rows[:3]))
+            
+        return {
+            "message": f"Successfully imported {added_count} products.",
+            "errors": error_rows
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error parsing CSV: {str(e)}")
+
 @api_router.get("/admin/customers")
 async def get_all_customers(authorization: str = Header(None)):
     await get_current_admin(authorization or "")
