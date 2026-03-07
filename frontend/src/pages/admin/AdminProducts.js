@@ -118,7 +118,9 @@ export default function AdminProducts() {
       formDataToSend.append('category', categoryName);
       formDataToSend.append('colors', formData.colors);
       formDataToSend.append('sizes', formData.sizes);
-      formDataToSend.append('size_chart', formData.size_chart);
+      if (formData.size_chart) {
+        formDataToSend.append('size_chart', formData.size_chart);
+      }
       formDataToSend.append('quantity', formData.quantity);
       formDataToSend.append('price', formData.price);
       formDataToSend.append('is_trending', formData.is_trending);
@@ -128,9 +130,7 @@ export default function AdminProducts() {
       }
 
       if (editMode && currentProduct) {
-        await api.put(`/admin/products/${currentProduct.id}`, formDataToSend, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.put(`/admin/products/${currentProduct.id}`, formDataToSend);
         toast.success('Product updated successfully');
       } else {
         if (images.length === 0) {
@@ -138,9 +138,7 @@ export default function AdminProducts() {
           setSubmitting(false);
           return;
         }
-        await api.post('/admin/products', formDataToSend, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.post('/admin/products', formDataToSend);
         toast.success('Product created successfully');
       }
 
