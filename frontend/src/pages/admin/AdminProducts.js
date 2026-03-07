@@ -38,6 +38,7 @@ export default function AdminProducts() {
     }
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     Promise.all([fetchProducts(), fetchMetadata()]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchMetadata = async () => {
